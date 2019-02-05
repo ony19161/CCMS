@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace CCMS.WebApi.Core.Controllers
 {
@@ -10,10 +11,18 @@ namespace CCMS.WebApi.Core.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+        private ILogger logger;
+
+        public ValuesController(ILoggerFactory factory)
+        {
+            this.logger = factory.CreateLogger<ValuesController>();
+        }
+
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
+            this.logger.LogInformation("Calling get values");
             return new string[] { "value1", "value2" };
         }
 

@@ -14,11 +14,20 @@ namespace CCMS.WebApi.Core
     {
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
+            IWebHost webHost = CreateWebHostBuilder(args);
+            webHost.Run();
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
+        public static IWebHost CreateWebHostBuilder(string[] args)
+        {
+            IWebHostBuilder webhostBuilder = WebHost.CreateDefaultBuilder(args)
+                .ConfigureLogging((hostingContext, builder) => 
+                {
+                    builder.AddFile("C:/Temp/Logs/appLog-{Date}.txt");
+                })
                 .UseStartup<Startup>();
+
+            return webhostBuilder.Build();
+        }
     }
 }
